@@ -13,6 +13,6 @@ text(h.XData+.02, h.YData+.01 ,h.NodeLabel, ...
     'FontSize', 10)
 h.NodeLabel = {};
 title(plotnam)
-saveas(gcf,'../4 Plot and publish/'+model_name+'_hypergraph.png')
+saveas(gcf,'Plots/'+model_name+'_hypergraph.png')
 
 %title(model_name + ' Hypergraph','Interpreter','none')
