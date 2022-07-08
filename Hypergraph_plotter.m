@@ -12,7 +12,7 @@ text(h.XData+.02, h.YData+.01 ,h.NodeLabel, ...
     'HorizontalAlignment', 'left',...
     'FontSize', 10)
 h.NodeLabel = {};
-title(plotnam)
+title(plotnam+' reaction network')
 saveas(gcf,'Plots/'+model_name+'_hypergraph.png')
 
 %title(model_name + ' Hypergraph','Interpreter','none')
