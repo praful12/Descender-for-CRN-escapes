@@ -7,6 +7,7 @@
 function [PS_traj, delta_x, t_traj] = func_gradient(traj, mom_traj, dt_traj, dHamdq_fun,num_smooth)
 
 mom_traj_ic = mom_traj;
+dt_traj_ic = dt_traj;
 [traj_pts,num_spec] = size(traj);
 for j = 1:num_smooth
     dt_traj = smooth(dt_traj);
@@ -15,11 +16,18 @@ for j = 1:num_smooth
     end
 end
 
+
 %{
 figure()
 plot(mom_traj,'--')
 hold on
 plot(mom_traj_ic)
+hold off
+
+figure()
+plot(dt_traj,'--')
+hold on
+plot(dt_traj_ic)
 hold off
 %}
 
@@ -28,13 +36,13 @@ hold off
 mom_prime = zeros(size(traj));
 diff_mom = diff(mom_traj);
 mom_prime(2:end-1,:) = mom_traj(1:end-2,:) + 1/2*diff_mom(1:end-1,:);
-diff_mom = diff(mom_prime);
+%diff_mom = diff(mom_prime);
 
 %Time taken to go from mid point i to i+1 is (dt(i)+dt(i+1))/2
 dt_prime = 1/2*(dt_traj(1:end-2)+dt_traj(2:end-1));
-p_dot = zeros(size(traj));
 
-%delta_x 
+%delta_x and p_dot
+p_dot = zeros(size(traj));
 delta_x = zeros(size(traj));
 
 %Output
@@ -53,6 +61,10 @@ title('delta-x')
 figure()
 plot(p_dot)
 title('p-dot')
+
+figure()
+plot(dHamdq_fun(PS_traj(:,:)))
+title('dHdq')
 %}
 
 end

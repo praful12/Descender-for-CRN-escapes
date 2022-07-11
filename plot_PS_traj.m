@@ -1,4 +1,4 @@
-function [] = plot_PS_traj(PS_traj,t_traj,plotnam,save_plot_name)
+function [] = plot_PS_traj(PS_traj,t_traj,plotnam,save_plot_name,save_plot_flag)
 
     num_spec = size(PS_traj,2)/2;
     figure()
@@ -37,11 +37,13 @@ function [] = plot_PS_traj(PS_traj,t_traj,plotnam,save_plot_name)
     
     x0=0.1;
     y0=0.1;
-    width=21;
-    height=7;
+    width=28;
+    height=8;
     set(gcf,'position',[x0,y0,width,height])
     set(gcf,'units','centimeters','position',[x0,y0,width,height])
 
-    saveas(gcf,save_plot_name)
+    if save_plot_flag == 1
+        saveas(gcf,save_plot_name)
+    end
 
 end
