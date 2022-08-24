@@ -1,4 +1,4 @@
-
+%traj_pts_indx = number of points in the surf plot
 function [fun3d, fun3d_fft] = surf_input(arr_inp,num_spec,tot_iter,traj_pt_arr,traj_pts_indx)
 
 

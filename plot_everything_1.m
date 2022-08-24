@@ -8,7 +8,7 @@ tot_iter = size(S_arr,1);
 
 %Action
 figure()
-plot(S_arr,'.-')
+plot(S_arr,'.-','LineWidth',1.5)
 ylabel('Action')
 xlabel('Iterations')
 grid on
@@ -47,47 +47,46 @@ grid on
 
 %Surf plots
 %Points to skip along trajectory
-dtraj = 100;
+dtraj = 10;
+diter = 2;
 
-
-
-
+traj_pts_indx = 1000;
 %deltax
-[deltax_3d, deltax_3d_fft] = surf_input(deltax_arr,num_spec,traj_pts,tot_iter);
-[deltax_s_3d, deltax_s_3d_fft] = surf_input(deltax_lp_arr,num_spec,traj_pts,tot_iter);
+[deltax_3d, deltax_3d_fft] = surf_input(deltax_arr,num_spec,tot_iter,traj_pt_arr,traj_pts_indx);
+[deltax_s_3d, deltax_s_3d_fft] = surf_input(deltax_lp_arr,num_spec,tot_iter,traj_pt_arr,traj_pts_indx);
 
 for i = 1:num_spec
     figure()
     surf(squeeze(deltax_3d(i,1:dtraj:traj_pts,init_iter:diter:tot_iter)))
-    shading interp
+    %shading interp
     title('delta x : dim '+string(i))
     view([97.02 32.46])
-    xlabel('Iterations')
-    ylabel('Trajectory (skip every '+string(dtraj)+')')
+    xlabel('Iterations (skip every '+string(diter)+')')
+    ylabel('Normalized Trajectory')
 
     figure()
     surf(squeeze(deltax_s_3d(i,1:dtraj:traj_pts,init_iter:diter:tot_iter)))
-    shading interp
+    %shading interp
     title('delta x smooth : dim '+string(i))
     view([97.02 32.46])
     xlabel('Iterations')
-    ylabel('Trajectory (skip every '+string(dtraj)+')')
+    ylabel('Normalized Trajectory')
 
     figure()
     surf(squeeze(deltax_3d_fft(i,1:20,init_iter:diter:tot_iter)))
-    shading interp
+    %shading interp
     title('delta x fft: dim '+string(i))
     view([97.02 32.46])
     xlabel('Iterations')
-    ylabel('Trajectory (skip every '+string(dtraj)+')')
+    ylabel('Normalized Trajectory')
 
     figure()
     surf(squeeze(deltax_s_3d_fft(i,1:20,init_iter:diter:tot_iter)))
-    shading interp
+    %shading interp
     title('delta x smooth fft : dim '+string(i))
     view([97.02 32.46])
     xlabel('Iterations')
-    ylabel('Trajectory (skip every '+string(dtraj)+')')
+    ylabel('Normalized Trajectory')
 
 end
 

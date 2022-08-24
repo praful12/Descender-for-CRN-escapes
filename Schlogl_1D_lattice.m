@@ -37,7 +37,7 @@ for i = 1:num_spec
     rxn_rate = [rxn_rate;[c_in c_out rate]];    
 end
 
-%Diffusion
+%Diffusion - all to all
 for i = 1:num_spec
     for j = i+1:num_spec
         c_in = 1 + 3*(i-1) + 1;

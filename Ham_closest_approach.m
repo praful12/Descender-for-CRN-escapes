@@ -14,7 +14,7 @@ x_targ_end = traj(end,:);
 dt = min(diff(t_traj));
 
 %Coarse search -  every 100 points
-pt_arr = [1:floor(traj_pts/20):traj_pts];
+pt_arr = [1:50:traj_pts];
 dist_min_arr = zeros(size(pt_arr,2),2);
 
 for i = 1:size(pt_arr,2)
@@ -28,7 +28,7 @@ end
 [a,b] = min(sum(dist_min_arr,2));
 
 %Finer search - every 10 points
-pt_arr = [pt_arr(b-1):10:pt_arr(b+1)];
+pt_arr = [pt_arr(max(1,b-1)):10:pt_arr(min(size(pt_arr,2),b+1))];
 dist_min_arr = zeros(size(pt_arr,2),2);
 
 for i = 1:size(pt_arr,2)
@@ -62,12 +62,16 @@ plot(Ham_traj_back(:,1),Ham_traj_back(:,2:num_spec),'b','LineWidth',2)
 plot(x_ic(:,1),x_ic(2:num_spec),'ks','MarkerSize',15)
 plot(x_targ_start(:,1),x_targ_start(:,2:end),'r*','MarkerSize',15)
 plot(x_targ_end(:,1),x_targ_end(:,2:end),'ro','MarkerSize',15)
-grid on
+%grid on
 hold off
+h1 = legend('Descender','Fwd HamEoM','Bwd HamEoM','location','best');
+set(h1,'Interpreter','latex');
+h1.FontSize = 15;
+
 %legend('Descender','Fwd HamEoM','Bwd HamEoM','location','best')
-xlabel('q_1')
-ylabel('q_2 ')
-title(plotnam +' : \Delta='+string(round(dist_curr_for+dist_curr_back,3)))
+xlabel('$q_1$','Interpreter','Latex','Fontsize',20)
+ylabel('$q_2$','Interpreter','Latex','Fontsize',20)
+title('Iteration '+plotnam+', $\Delta=$ '+string(round(dist_curr_for+dist_curr_back,3)),'Interpreter','Latex','Fontsize',20)
 
 subplot(1,2,2)
 plot(PS_traj(:,num_spec + 1),PS_traj(:,num_spec + 2:end),'c-.','LineWidth',2)
@@ -75,11 +79,11 @@ hold on
 plot(Ham_traj_for(:,num_spec+1),Ham_traj_for(:,num_spec+2:end),'LineWidth',2)
 plot(Ham_traj_back(:,num_spec + 1),Ham_traj_back(:,num_spec+2:end),'b','LineWidth',2)
 hold off
-grid on
-legend('Descender','Fwd HamEoM','Bwd HamEoM','location','best')
-title('Descender vs HamEoM')
-xlabel('p_1')
-ylabel('p_2 ')
+%grid on
+
+%title('Descender vs HamEoM')
+xlabel('$p_1$','Interpreter','Latex','Fontsize',20)
+ylabel('$p_2$','Interpreter','Latex','Fontsize',20)
 
 x0=0.1;
 y0=0.1;
@@ -88,7 +92,7 @@ height=8;
 set(gcf,'position',[x0,y0,width,height])
 set(gcf,'units','centimeters','position',[x0,y0,width,height])
 if save_plot_flag == 1
-    save_plot_name = save_plot_name + '_' + string(pt_idx)+'.png';
+    %save_plot_name = save_plot_name + '_' + string(pt_idx)+'.png';
     saveas(gcf,save_plot_name)
 end
 

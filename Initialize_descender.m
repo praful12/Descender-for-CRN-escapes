@@ -20,5 +20,6 @@ S_traj_arr = [S_traj];
 S_arr = [action_S]
 f0_arr = [f0];
 eps_arr = [];
+a_arr = [];
 
 s_resamp_arr = [len_curve_prime];

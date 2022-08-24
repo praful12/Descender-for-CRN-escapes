@@ -52,27 +52,32 @@ pos_root_arr
 figure()
 %lb = ; ub = 4;
 hold on
-plot(pos_root_arr(stab_idx(1),1),pos_root_arr(stab_idx(1),2),'k*','MarkerSize',20)
-plot(pos_root_arr(sad_idx(1),1),pos_root_arr(sad_idx(1),2),'bo','MarkerSize',20)
-plot(pos_root_arr(:,1),pos_root_arr(:,2),'r.','MarkerSize',10)
+plot(pos_root_arr(stab_idx(1),1),pos_root_arr(stab_idx(1),2),'k*','MarkerSize',20,'MarkerFaceColor','k')
+plot(pos_root_arr(sad_idx(1),1),pos_root_arr(sad_idx(1),2),'bo','MarkerSize',10,'MarkerFaceColor','b')
+plot(pos_root_arr(2,1),pos_root_arr(2,2),'rs','MarkerSize',10,'MarkerFaceColor','r')
 for i = 2:size(stab_idx,1)
     plot(pos_root_arr(stab_idx(i),1),pos_root_arr(stab_idx(i),2),'k*','MarkerSize',20)
 end
 for i = 2:size(sad_idx,1)
-    plot(pos_root_arr(sad_idx(i),1),pos_root_arr(sad_idx(i),2),'bo','MarkerSize',20)
+    plot(pos_root_arr(sad_idx(i),1),pos_root_arr(sad_idx(i),2),'bo','MarkerSize',10,'MarkerFaceColor','b')
 end
 hold off
 %legend('Stable roots','Saddle roots','All roots','location','north')
-legend('Stable roots','Saddle roots','location','north')
+h1=legend('Stable','Saddle','Bi-saddle','location','best');
+%h1=legend('Stable','Saddle','location','best');
+set(h1,'Interpreter','latex');
+h1.FontSize = 15;
+ax=gca;
+ax.FontSize = 13;
 
-xlabel('X_1')
-ylabel('X_2')
+xlabel('$q_1$','interpreter','latex','FontSize',20)
+ylabel('$q_2$','interpreter','latex','FontSize',20)
 lim = double([min(pos_root_arr(:,1))-0.2  max(pos_root_arr(:,1))+0.2]);
 xlim(lim)
 lim = double([min(pos_root_arr(:,2))-0.2  max(pos_root_arr(:,2))+1]);
-ylim(lim)
-grid on
-title(plotnam)
+%ylim(lim)
+%grid on
+title('2-Schlogl : Stationary points','Interpreter','latex','FontSize',20)
 saveas(gcf,'Plots/'+model_name+'_stability.png')
 
 %}

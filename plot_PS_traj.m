@@ -6,23 +6,28 @@ function [] = plot_PS_traj(PS_traj,t_traj,plotnam,save_plot_name,save_plot_flag)
     plot(PS_traj(:,1),PS_traj(:,2:num_spec),'LineWidth',2)
     hold on
     plot(PS_traj(1,1),PS_traj(1,2:num_spec),'k*','MarkerSize',15)
-    plot(PS_traj(end,1),PS_traj(end,2:num_spec),'bo','MarkerSize',15)
+    plot(PS_traj(end,1),PS_traj(end,2:num_spec),'bo','MarkerSize',10,'MarkerFaceColor','b')
     hold off
-    grid on
-    xlabel('q_1')
-    ylabel('q_2')
-    title(plotnam +': Position')
+    %grid on
+    ax=gca;
+    ax.FontSize = 15;
+    xlabel('$q_1$','interpreter','latex','FontSize',20)
+    ylabel('$q_2$','interpreter','latex','FontSize',20)
+    title(plotnam +' : Position','interpreter','latex','FontSize',20)
+
 
     subplot(1,3,2)
     plot(PS_traj(:,1+num_spec),PS_traj(:,num_spec+2:2*num_spec),'LineWidth',2)
     hold on
     plot(PS_traj(1,1+num_spec),PS_traj(1,num_spec+2:2*num_spec),'k*','MarkerSize',15)
-    plot(PS_traj(end,1+num_spec),PS_traj(end,num_spec+2:2*num_spec),'bo','MarkerSize',15)
+    plot(PS_traj(end,1+num_spec),PS_traj(end,num_spec+2:2*num_spec),'bo','MarkerSize',10,'MarkerFaceColor','b')
     hold off
-    grid on
-    xlabel('p_1')
-    ylabel('p_2')
-    title('Momentum')
+    %grid on
+    ax=gca;
+    ax.FontSize = 15;
+    xlabel('$p_1$','interpreter','latex','FontSize',20)
+    ylabel('$p_2$','interpreter','latex','FontSize',20)
+    title('Momentum','interpreter','latex','FontSize',20)
     
     subplot(1,3,3)
     plot(PS_traj(:,1),t_traj,'.-')
@@ -30,10 +35,11 @@ function [] = plot_PS_traj(PS_traj,t_traj,plotnam,save_plot_name,save_plot_flag)
     plot(PS_traj(1,1),t_traj(1),'k*','MarkerSize',15)
     plot(PS_traj(end,1),t_traj(end),'bo','MarkerSize',15)
     hold off
-    grid on
-    xlabel('q_1')
-    ylabel('Time')
-    title('Time along trajectory')
+    %grid on
+    xlabel('$q_1$','interpreter','latex','FontSize',20)
+    ylabel('Time','interpreter','latex','FontSize',20)
+    title('Time along trajectory','interpreter','latex','FontSize',20)
+    
     
     x0=0.1;
     y0=0.1;

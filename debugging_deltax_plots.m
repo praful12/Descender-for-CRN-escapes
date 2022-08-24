@@ -12,11 +12,11 @@ function c_out = debugging_deltax_plots(delta_x,delta_x_s,f0,plotnam,save_plot_n
         plot(delta_x(:,i),'--','Linewidth',1.8)
     end
     %legend('smoothened','original','location','best')
-    grid on
-    title(plotnam + ' : functional gradient')
-    xlabel('Sample point along curve')
-    ylabel('g and g_s')
-    %ylim([-0.5 0.5])
+    ax=gca;
+    ax.FontSize = 15;
+    xlabel('Sample point along curve','interpreter','latex','FontSize',20)
+    ylabel('$g$ and $g_s$','interpreter','latex','FontSize',20)
+    title('Functional gradient','interpreter','latex','FontSize',20)
     hold off
 
     subplot(1,2,2)
@@ -27,11 +27,15 @@ function c_out = debugging_deltax_plots(delta_x,delta_x_s,f0,plotnam,save_plot_n
         plot(abs(fft(delta_x_s(:,i))).^2,'-','Linewidth',2)
         plot(abs(fft(delta_x(:,i))).^2,'--','Linewidth',1.8)
     end
-    grid on
-    legend('filtered','original','location','best')
-    title('Spectrum : f_{cut} = '+string(f0))
-    xlabel('Frequency bin')
-    ylabel('|fft|^2')
+    %grid on
+    h1 = legend('Filtered','Original','location','best');
+    set(h1,'Interpreter','latex');
+    h1.FontSize = 15;
+    
+    xlabel('Frequency','interpreter','latex','FontSize',20)
+    ylabel('Power Spectrum','interpreter','latex','FontSize',20)
+    title('Cutoff frequency : $f_c =$ '+string(f0),'interpreter','latex','FontSize',20)
+
     xlim([0 8*f0])
     %ylim([-0.5 0.5])
     hold off

@@ -74,14 +74,26 @@ for i = 1:num_sad
         %plots
         
         plot(squeeze(hc_traj_arr(i,j,:,1)),squeeze(hc_traj_arr(i,j,:,2:end)),'Linewidth',2)
-        plot(squeeze(hc_traj_arr(i,j,1,1)),squeeze(hc_traj_arr(i,j,1,2:end)),'bo','MarkerSize',15)
-        plot(squeeze(hc_traj_arr(i,j,end,1)),squeeze(hc_traj_arr(i,j,end,2:end)),'k*','MarkerSize',15)        
+        plot(squeeze(hc_traj_arr(i,j,1,1)),squeeze(hc_traj_arr(i,j,1,2:end)),'bo','MarkerSize',10,'MarkerFaceColor','b')
+        plot(squeeze(hc_traj_arr(i,j,end,1)),squeeze(hc_traj_arr(i,j,end,2:end)),'k*','MarkerSize',20)        
         
     end
 end
+ax=gca;
+ax.FontSize = 15;
+h1=legend('Relaxation','Saddle','Stable','location','best');
+%h1=legend('Stable','Saddle','location','best');
+set(h1,'Interpreter','latex');
+h1.FontSize = 15;
+
+xlabel('$q_1$','Interpreter',"latex",'FontSize',20)
+ylabel('$q_2$','Interpreter',"latex",'FontSize',20)
+
 hold off
-grid on
-title('Heteroclinic network using relaxation trajectories')
+%grid on
+
+
+title('Proxy Heteroclinic Network','Interpreter','Latex','FontSize',20)
 saveas(gcf,'Plots/'+model_name+'_hcnet.png')
 
 
