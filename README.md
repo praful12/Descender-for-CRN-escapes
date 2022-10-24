@@ -4,7 +4,7 @@
 
 ## Workflow
 1. Create a folder named 'Data' outside the directory which contains the code. 
-2. The Matlab live scripts are labelled in the order of the workflow, and have comments inside to follow what is being done. (The live script calls functions, which are similarly commented).  
+2. The MATLAB live scripts are labelled in the order of the workflow, and have comments inside to follow what is being done. (The live script calls functions, which are similarly commented).  
 
 
 ## MATLAB version
