@@ -1,5 +1,5 @@
 # Descender-for-CRN-escapes
- A functional gradient algorithm for finding escapes in stochastic chemical reaction networks. The algorithm is described in an associated paper. If you use the code or algorithm, please cite the paper.  
+ A functional gradient algorithm for finding escapes in stochastic chemical reaction networks. The algorithm is described in an associated paper. If you use the code or the algorithm, please cite the paper.  
 
 
 ## Workflow
