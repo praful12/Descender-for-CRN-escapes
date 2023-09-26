@@ -28,6 +28,22 @@ for i = 1:num_sad
     x_ic_arr(i,2,:) = x_ic - eps*unst_vec;    
 end
 
+%Integrate MAK from each initial condition using ode45
+options = odeset('AbsTol',1e-10);
+dt = 0.5*10^(-2);
+t_max = 5*10^5;
+
+for i=1:num_sad
+    hc_net(i,1) = sad_idx(i);
+    for j=1:2
+        sol(i,j) = ode45(MAK_fun,[0 t_max], x_ic_arr(i,j,:),options);
+
+    end
+end
+
+
+
+
 
 %Integrate MAK from each initial condition
 
