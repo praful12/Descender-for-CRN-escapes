@@ -1,6 +1,7 @@
 %Get the heteroclinic network and all connecting relaxation trajectories
 %resampled at resamp_pt points along the relaxation trajectory.
-%Input: stab_idx, sad_idx, unst_vec
+%Input: pos_root_arr, stab_idx, sad_idx, unst_vec, MAK_fun, jjac_fun
+%Output: hc_net, hc_traj_arr, hc_net_time, t_arr, 
 
 num_sad = size(sad_idx,1);
 resamp_pt = 4000;
@@ -8,7 +9,7 @@ hc_net = zeros(num_sad,3);
 hc_net_time = zeros(num_sad,2);
 x_ic_arr = zeros(num_sad,2,num_spec);
 hc_traj_arr = zeros(num_sad,2,resamp_pt,num_spec);
-t_arr = zeros(num_sad,2);
+%t_arr = zeros(num_sad,2);
 %get initial conditions by slightly displacing along the unstable
 %eigenvalue
 for i = 1:num_sad
@@ -58,7 +59,7 @@ for i = 1:num_sad
         toc
         "Simulation time"
         t_ran(k)
-        t_arr(i,j) = t_ran(k);
+        %t_arr(i,j) = t_ran(k);
         hc_net_time(i,j) = t_ran(k);
         %use the end point to populate heteroclinic network
         end_pt = conc_traj(k-1,:);
@@ -103,4 +104,4 @@ hc_net
 pos_root_arr
 
 %Also get time arrays and save
-save('..\Data\' + model_name + '_hcnet.mat', 'pos_root_arr', 'hc_net', 'hc_traj_arr', 'stab_idx', 'sad_idx','t_arr')
+save('..\Data\' + model_name + '_hcnet.mat', 'pos_root_arr', 'hc_net', 'hc_traj_arr', 'stab_idx', 'sad_idx','hc_net_time')

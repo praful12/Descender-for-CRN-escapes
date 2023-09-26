@@ -1,6 +1,6 @@
 %Get the heteroclinic network and all connecting relaxation trajectories
 %resampled at resamp_pt points along the relaxation trajectory.
-%Input: stab_idx, sad_idx, unst_vec
+%Input: stab_idx, sad_idx, unst_vec, MAK_fun
 
 num_sad = size(sad_idx,1);
 resamp_pt = 4000;
