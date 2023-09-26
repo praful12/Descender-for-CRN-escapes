@@ -71,7 +71,9 @@ G = digraph(in_comp,out_comp);
 figure()
 plot(G)
 title(plotnam)
-saveas(gcf,'../4 Plot and publish/'+model_name+'_hypergraph.png')
+%saveas(gcf,'../4 Plot and publish/'+model_name+'_hypergraph.png')
+saveas(gcf,'..\HayleyODEsystem\'+model_name+'_hypergraph.png')
+
 
 %title(model_name +" Hypergraph",'Interpreter','none')
 
