@@ -13,4 +13,4 @@ S_arr = [S_arr; action_S];
 f0_arr = [f0_arr; f0];
 eps_arr = [eps_arr; eps_used];
 s_resamp_arr = [s_resamp_arr;len_curve_prime];
-a_arr = [a_arr; a_min];
+%a_arr = [a_arr; a_min];
