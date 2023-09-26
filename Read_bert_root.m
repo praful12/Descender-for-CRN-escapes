@@ -16,7 +16,8 @@ line = fgetl(fileID);
 
 for i = 1:num_root*(num_spec+1)
     line = fgetl(fileID);
-    if size(line,2)>0
+    %size(line)
+    if size(line,2)>1
         lin_spl = split(line);
         root_arr(root_ct,spec_ct) = str2num(lin_spl{1});
         spec_ct = spec_ct + 1;
@@ -32,7 +33,7 @@ pos_root_arr = [];
 ct = 0;
 for i = 1:num_root
     for j = 1:num_spec
-        if root_arr(i,j)>0
+        if root_arr(i,j)>-0.001
             ct = ct + 1;
         end
     end
@@ -42,7 +43,6 @@ for i = 1:num_root
     ct = 0;
 end
 num_pos_root = size(pos_root_arr,1);
-pos_root_arr
 
 %Get eigenvalues of jacobian and assign stability
 eig_val_lst = [];
@@ -67,8 +67,8 @@ for i = 1:num_pos_root
         sad_idx = [sad_idx ; i];
     end
 end
-eig_val_lst;
-pos_root_arr;
+eig_val_lst
+pos_root_arr
 %}
 
 %plot stable and saddle roots

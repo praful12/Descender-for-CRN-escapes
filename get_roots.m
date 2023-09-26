@@ -71,7 +71,6 @@ xlabel('Species')
 grid on
 title(plotnam)
 %title("Stable(circle) and saddle(square) "+string(model_name),'Interpreter','none')
-saveas(gcf,'../4 Plot and publish/'+model_name+'_stability.png')
 %}
 
 %{
