@@ -1,3 +1,4 @@
+function [num_spec,species,comp_vec,rxn_rate,G] = extract_rxn_net(filnam)
 
 %File name
 fileID = fopen(filnam + ".txt");
@@ -59,24 +60,9 @@ for i = 1 : size(rxn_net,2)
     
     
 end
-in_comp;
-out_comp;
-rate_c_val;
 
-
-
-%
 %get a graph of rxn_network
 G = digraph(in_comp,out_comp);
-figure()
-plot(G)
-title(plotnam)
-%saveas(gcf,'../4 Plot and publish/'+model_name+'_hypergraph.png')
-saveas(gcf,'..\HayleyODEsystem\'+model_name+'_hypergraph.png')
-
-
-%title(model_name +" Hypergraph",'Interpreter','none')
-
 
 %Extract species and stoichiometry from nodes of the graph or complexes
 %ascii 0 = 48 A = 65
@@ -153,6 +139,3 @@ if species_uq{1} =='0'
     comp_vec = comp_vec(:,2:end);
     species_uq(1) = [];
 end
-%}
-
-
