@@ -1,6 +1,6 @@
 %Hypergraph
+function G = Hypergraph_plotter(G,comp_vec_name,rxn_rate,plotnam)
 
-G = digraph();
 G = addnode(G,comp_vec_name);
 for i = 1:size(rxn_rate,1)
     G = addedge(G,comp_vec_name(rxn_rate(i,1)),comp_vec_name(rxn_rate(i,2)),rxn_rate(i,3));
