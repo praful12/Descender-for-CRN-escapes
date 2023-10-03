@@ -32,53 +32,24 @@ end
 options = odeset('AbsTol',1e-10);
 dt = 0.5*10^(-2);
 t_max = 5*10^5;
+figure
+hold on
 
 for i=1:num_sad
     hc_net(i,1) = sad_idx(i);
     for j=1:2
-        sol(i,j) = ode45(MAK_fun,[0 t_max], x_ic_arr(i,j,:),options);
-
-    end
-end
-
-
-
-
-
-%Integrate MAK from each initial condition
-
-dt = 0.5*10^(-2);
-t_max = 5*10^5;
-t_ran = 0:dt:t_max;
-size_t = size(t_ran,2);
-
-figure()
-hold on
-
-for i = 1:num_sad
-    hc_net(i,1) = sad_idx(i);
-    for j = 1:2
         "Computing time"
         tic
-        conc_traj = zeros(size_t,num_spec);
-        conc_traj(1,:) = x_ic_arr(i,j,:);
 
-        for k = 2:size(t_ran,2)
-            if sum(abs(MAK_fun(conc_traj(k-1,:))))>10^(-7)
-                conc_traj(k,:) = conc_traj(k-1,:) + dt*MAK_fun(conc_traj(k-1,:))';
-            else
-                t_inter = linspace(0,t_ran(k-1),resamp_pt);
-                hc_traj_arr(i,j,:,:) = interp1(t_ran(1:k-1),conc_traj(1:k-1,:),t_inter);
-                break
-            end
-        end
+        [t,sol] = ode45(MAK_fun,[0 t_max], x_ic_arr(i,j,:),options);
+
         toc
         "Simulation time"
-        t_ran(k)
-        %t_arr(i,j) = t_ran(k);
-        hc_net_time(i,j) = t_ran(k);
+        t(end)
+        hc_net_time(i,j) = t(end);
+        
         %use the end point to populate heteroclinic network
-        end_pt = conc_traj(k-1,:);
+        end_pt = sol(end,:);
         [a,b] = min(sum(abs(pos_root_arr(stab_idx,:)-ones(size(stab_idx,1),1)*end_pt),2));
         
         if abs(a) < 0.01
@@ -113,6 +84,7 @@ hold off
 
 title('Proxy Heteroclinic Network','Interpreter','Latex','FontSize',20)
 saveas(gcf,'Plots/'+model_name+'_hcnet.png')
+
 
 
 

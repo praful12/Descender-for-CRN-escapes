@@ -32,11 +32,32 @@ end
 options = odeset('AbsTol',1e-10);
 dt = 0.5*10^(-2);
 t_max = 5*10^5;
+figure
+hold on
 
 for i=1:num_sad
     hc_net(i,1) = sad_idx(i);
     for j=1:2
-        sol = ode45(MAK_fun,[0 t_max], x_ic_arr(i,j,:),options);
+        [t,sol] = ode45(MAK_fun,[0 t_max], x_ic_arr(i,j,:),options);
+        
+        %use the end point to populate heteroclinic network
+        end_pt = sol(end,:);
+        [a,b] = min(sum(abs(pos_root_arr(stab_idx,:)-ones(size(stab_idx,1),1)*end_pt),2));
+        
+        if abs(a) < 0.01
+            hc_net(i,j+1) = stab_idx(b);
+        end    
+        %pos_root_arr(stab_idx(b),:)
+        
+        hc_traj_arr(i,j,1,:) = pos_root_arr(sad_idx(i),:);
+        hc_traj_arr(i,j,end,:) = pos_root_arr(stab_idx(b),:);
+        
+        %plots
+        
+        plot(squeeze(hc_traj_arr(i,j,:,1)),squeeze(hc_traj_arr(i,j,:,2:end)),'Linewidth',2)
+        plot(squeeze(hc_traj_arr(i,j,1,1)),squeeze(hc_traj_arr(i,j,1,2:end)),'bo','MarkerSize',10,'MarkerFaceColor','b')
+        plot(squeeze(hc_traj_arr(i,j,end,1)),squeeze(hc_traj_arr(i,j,end,2:end)),'k*','MarkerSize',20)        
+        
     end
 end
 
