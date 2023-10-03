@@ -1,7 +1,7 @@
 %Get roots using mass action kinetics for 2D models. This will not work for any high
 %dimensianal problem. For that use Bertini and get roots.
 %Plot Roots on morse-function
-%Input: 
+%Input: MAK
 %Output: eig_val_lst, pos_root_arr, unst_vec, stab_idx, sad_idx
 
 roots = vpasolve(MAK,q,ones(1,num_spec));
