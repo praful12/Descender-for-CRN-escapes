@@ -81,7 +81,6 @@ lim = double([min(pos_root_arr(:,2))-0.2  max(pos_root_arr(:,2))+1]);
 %ylim(lim)
 %grid on
 title('2-Schlogl : Stationary points','Interpreter','latex','FontSize',20)
-saveas(gcf,'Plots/'+model_name+'_stability.png')
 
 %}
 
