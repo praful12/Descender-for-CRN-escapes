@@ -29,11 +29,12 @@ for i = 1:num_sad
 end
 
 %Integrate MAK from each initial condition using ode45
-options = odeset('AbsTol',1e-10);
+options = odeset('AbsTol',1e-8, 'RelTol', 1e-6);
 dt = 0.5*10^(-2);
 t_max = 5*10^5;
 figure
 hold on
+init_cond = zeros(1,num_spec);
 
 for i=1:num_sad
     hc_net(i,1) = sad_idx(i);
@@ -41,15 +42,17 @@ for i=1:num_sad
         "Computing time"
         tic
 
-        [t,sol] = ode45(MAK_fun,[0 t_max], x_ic_arr(i,j,:),options);
+        init_cond = reshape(x_ic_arr(i,j,:),[],1);
+        [t,sol] = ode15s(@(t,q)MAK_fun(t,q),[0 t_max], init_cond,options);
 
         toc
         "Simulation time"
-        t(end)
-        hc_net_time(i,j) = t(end);
+        hc_net_time(i,j) = t(end); %not really changing - might want to delete
+        t_inter = linspace(0,t(end),resamp_pt);
+        hc_traj_arr(i,j,:,:) = interp1(t,sol,t_inter);
         
         %use the end point to populate heteroclinic network
-        end_pt = sol(end,:);
+        end_pt = sol(end,:)
         [a,b] = min(sum(abs(pos_root_arr(stab_idx,:)-ones(size(stab_idx,1),1)*end_pt),2));
         
         if abs(a) < 0.01
@@ -83,7 +86,7 @@ hold off
 
 
 title('Proxy Heteroclinic Network','Interpreter','Latex','FontSize',20)
-saveas(gcf,'Plots/'+model_name+'_hcnet.png')
+%saveas(gcf,'Plots/'+model_name+'_hcnet.png')
 
 
 
@@ -92,4 +95,4 @@ hc_net
 pos_root_arr
 
 %Also get time arrays and save
-save('..\Data\' + model_name + '_hcnet.mat', 'pos_root_arr', 'hc_net', 'hc_traj_arr', 'stab_idx', 'sad_idx','hc_net_time')
+%save('..\Data\' + model_nam + '_hcnet.mat', 'pos_root_arr', 'hc_net', 'hc_traj_arr', 'stab_idx', 'sad_idx','hc_net_time')
