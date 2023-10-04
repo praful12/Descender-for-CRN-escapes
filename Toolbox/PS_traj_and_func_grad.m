@@ -1,10 +1,12 @@
+%Find PS trajectory and functional gradient
+
 %The momentum assignment is done at the middle of each segment.
 %However in PS_traj, the momentum assignment is at the same point as the
 %position, thus we take the mean of the neighboring momentum to define
 %mom_prime which then is used for PS_traj.
 
 
-function [PS_traj, delta_x, t_traj] = func_gradient(traj, mom_traj, dt_traj, dHamdq_fun,num_smooth)
+function [PS_traj, delta_x, t_traj] = PS_traj_and_func_grad(traj, mom_traj, dt_traj, dHamdq_fun,num_smooth)
 
 mom_traj_ic = mom_traj;
 dt_traj_ic = dt_traj;
