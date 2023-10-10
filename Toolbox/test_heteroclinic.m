@@ -8,7 +8,7 @@ resamp_pt = 4000;
 hc_net = zeros(num_sad,3);
 hc_net_time = zeros(num_sad,2);
 x_ic_arr = zeros(num_sad,2,num_spec);
-hc_traj_arr = zeros(num_sad,2,resamp_pt,num_spec);
+hc_traj_arr = cell(num_sad,2);
 %t_arr = zeros(num_sad,2);
 %get initial conditions by slightly displacing along the unstable
 %eigenvalue
@@ -32,23 +32,21 @@ end
 options = odeset('AbsTol',1e-10, 'RelTol', 1e-8);
 dt = 0.5*10^(-2);
 t_max = 5*10^5;
-figure
-hold on
 init_cond = zeros(1,num_spec);
+t_desired = linspace(0,t_max,resamp_pt);
 
 "Computing time"
 tic
-for i=1:num_sad
+parfor i=1:num_sad
     hc_net(i,1) = sad_idx(i);
     for j=1:2
 
         init_cond = reshape(x_ic_arr(i,j,:),[],1);
         [t,sol] = ode23s(@(t,q)MAK_fun(t,q),[0 t_max], init_cond,options);
 
-        hc_net_time(i,j) = t(end); %not really changing - might want to delete
+        sol_desired=interp1(t,sol,t_desired,'linear');
 
-        hc_traj_arr(i,j,:,:)=sol;
-        
+        hc_traj_arr{i,j} = [t_desired', sol_desired];
         
     end
 end
@@ -56,22 +54,47 @@ end
 toc
 "Simulation time"
 
+% Initialize a figure for the plot
+figure;
+hold on;
 
-ax=gca;
-ax.FontSize = 15;
-h1=legend('Relaxation','Saddle','Stable','location','best');
-%h1=legend('Stable','Saddle','location','best');
-set(h1,'Interpreter','latex');
-h1.FontSize = 15;
+% Loop through each set of initial conditions and their solutions
+for i = 1:num_sad
+    for j=1:2
+        sol = hc_traj_arr{i,j}(:, 2:end); % Extract the solution, excluding the time variable
+    
+        % Plot the trajectory of the solution
+        plot(sol(:, 1), sol(:, 2), '-o', 'DisplayName', ['Initial Condition ' num2str(2*i+j-1)]);
+    end
+end
 
-xlabel('$q_1$','Interpreter',"latex",'FontSize',20)
-ylabel('$q_2$','Interpreter',"latex",'FontSize',20)
+% Customize the plot (labels, title, legend, etc.)
+xlabel('x-axis'); % Replace with your labels
+ylabel('y-axis'); % Replace with your labels
+title('Trajectories of Solutions');
+legend('Location', 'best');
+grid on;
 
-hold off
-%grid on
+% Hold off to finish plotting
+hold off;
 
-
-title('Proxy Heteroclinic Network','Interpreter','Latex','FontSize',20)
+% 
+% 
+% ax=gca;
+% ax.FontSize = 15;
+% h1=legend('Relaxation','Saddle','Stable','location','best');
+% %h1=legend('Stable','Saddle','location','best');
+% set(h1,'Interpreter','latex');
+% h1.FontSize = 15;
+% 
+% xlabel('$q_1$','Interpreter',"latex",'FontSize',20)
+% ylabel('$q_2$','Interpreter',"latex",'FontSize',20)
+% 
+% hold off
+% %grid on
+% 
+% 
+% title('Proxy Heteroclinic Network','Interpreter','Latex','FontSize',20)
 %saveas(gcf,'Plots/'+model_name+'_hcnet.png')
 
 
