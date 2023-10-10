@@ -2,7 +2,7 @@
 %dimensianal problem. For that use Bertini and get roots.
 %Plot Roots on morse-function
 %Input: MAK
-%Output: eig_val_lst, pos_root_arr, unst_vec, stab_idx, sad_idx
+%Output: eig_val_lst, pos_root_arr, unst_vec, stab_idx, sad_idx, x_ic_arr
 
 roots = vpasolve(MAK,q,ones(1,num_spec));
 root_arr = subs(q,roots);
