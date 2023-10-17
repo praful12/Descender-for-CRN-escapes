@@ -7,7 +7,7 @@ num_sad = size(sad_idx,1);
 resamp_pt = 4000;
 hc_net = zeros(num_sad,3);
 hc_net_time = zeros(num_sad,2);
-x_ic_arr = zeros(num_sad,2,num_spec);
+x_ic_arr = zeros(num_sad,2,num_spec)
 hc_traj_arr = cell(num_sad,2);
 %t_arr = zeros(num_sad,2);
 %get initial conditions by slightly displacing along the unstable
@@ -24,8 +24,8 @@ for i = 1:num_sad
     end
     
     eps = 10^(-3);
-    x_ic_arr(i,1,:) = x_ic + eps*unst_vec;
-    x_ic_arr(i,2,:) = x_ic - eps*unst_vec;    
+    x_ic_arr(i,1,:) = x_ic + eps*unst_vec
+    x_ic_arr(i,2,:) = x_ic - eps*unst_vec  
 end
 
 %Integrate MAK from each initial condition using ode45
@@ -37,7 +37,7 @@ t_desired = linspace(0,t_max,resamp_pt);
 
 "Computing time"
 tic
-parfor i=1:num_sad
+for i=1:num_sad
     hc_net(i,1) = sad_idx(i);
     for j=1:2
 

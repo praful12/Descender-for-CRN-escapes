@@ -3,74 +3,41 @@
 %Input: pos_root_arr, stab_idx, sad_idx, unst_vec, MAK_fun, jjac_fun
 %Output: hc_net, hc_traj_arr, hc_net_time, t_arr, 
 
-num_sad = size(sad_idx,1);
-resamp_pt = 4000;
+hc_traj_arr = odeintegrator(@(t,q)MAK_fun(t,q), x_ic_arr, t_max);
+
 hc_net = zeros(num_sad,3);
-hc_net_time = zeros(num_sad,2);
-x_ic_arr = zeros(num_sad,2,num_spec);
-hc_traj_arr = zeros(num_sad,2,resamp_pt,num_spec);
-%t_arr = zeros(num_sad,2);
-%get initial conditions by slightly displacing along the unstable
-%eigenvalue
-for i = 1:num_sad
-    x_ic = pos_root_arr(sad_idx(i),:);
-    [V,D] = eig(jac_fun(x_ic));
+
+% Initialize a figure for the plot
+figure;
+hold on;
+
+% Loop through each set of initial conditions and their solutions
+for i = 1:size(x_ic_arr,1)
+    saddle_pt = floor((i-1)/2)+1;
+    direction = mod(i-1,2)+1;
+
+    hc_net(saddle_pt,1) = sad_idx(saddle_pt);
+
+    sol = hc_traj_arr{i}(:, 2:end); % Extract the solution, excluding the time variable
+
+    end_pt = hc_traj_arr{i}(end,2:end);
+    [a,b] = min(sum(abs(pos_root_arr(stab_idx,:)-ones(size(stab_idx,1),1)*end_pt),2));
     
-    for j = 1:num_spec
-        if real(D(j,j))>0
-            unst_vec = V(:,j)';
-            break
-        end
-    end
+    if abs(a) < 0.01
+        hc_net(saddle_pt,direction+1) = stab_idx(b);
+    end    
+    %pos_root_arr(stab_idx(b),:)
     
-    eps = 10^(-3);
-    x_ic_arr(i,1,:) = x_ic + eps*unst_vec;
-    x_ic_arr(i,2,:) = x_ic - eps*unst_vec;    
+    hc_traj_arr{i}(1,2:end) = pos_root_arr(sad_idx(saddle_pt),:);
+    hc_traj_arr{i}(end,2:end) = pos_root_arr(stab_idx(b),:);
+    
+    %plots
+    
+    plot(sol(:,1),sol(:,2:end),'Linewidth',2)
+    plot(hc_traj_arr{i}(1,2),hc_traj_arr{i}(1,3:end),'bo','MarkerSize',10,'MarkerFaceColor','b')
+    plot(hc_traj_arr{i}(end,2),hc_traj_arr{i}(end,3:end),'k*','MarkerSize',20)        
 end
 
-%Integrate MAK from each initial condition using ode45
-options = odeset('AbsTol',1e-8, 'RelTol', 1e-6);
-dt = 0.5*10^(-2);
-t_max = 5*10^5;
-figure
-hold on
-init_cond = zeros(1,num_spec);
-
-parfor i=1:num_sad
-    hc_net(i,1) = sad_idx(i);
-    for j=1:2
-        "Computing time"
-        tic
-
-        init_cond = reshape(x_ic_arr(i,j,:),[],1);
-        [t,sol] = ode15s(@(t,q)MAK_fun(t,q),[0 t_max], init_cond,options);
-
-        toc
-        "Simulation time"
-        hc_net_time(i,j) = t(end); %not really changing - might want to delete
-        t_inter = linspace(0,t(end),resamp_pt);
-        hc_traj_arr(i,j,:,:) = interp1(t,sol,t_inter);
-        
-        %use the end point to populate heteroclinic network
-        end_pt = sol(end,:)
-        [a,b] = min(sum(abs(pos_root_arr(stab_idx,:)-ones(size(stab_idx,1),1)*end_pt),2));
-        
-        if abs(a) < 0.01
-            hc_net(i,j+1) = stab_idx(b);
-        end    
-        %pos_root_arr(stab_idx(b),:)
-        
-        hc_traj_arr(i,j,1,:) = pos_root_arr(sad_idx(i),:);
-        hc_traj_arr(i,j,end,:) = pos_root_arr(stab_idx(b),:);
-        
-        %plots
-        
-        plot(squeeze(hc_traj_arr(i,j,:,1)),squeeze(hc_traj_arr(i,j,:,2:end)),'Linewidth',2)
-        plot(squeeze(hc_traj_arr(i,j,1,1)),squeeze(hc_traj_arr(i,j,1,2:end)),'bo','MarkerSize',10,'MarkerFaceColor','b')
-        plot(squeeze(hc_traj_arr(i,j,end,1)),squeeze(hc_traj_arr(i,j,end,2:end)),'k*','MarkerSize',20)        
-        
-    end
-end
 ax=gca;
 ax.FontSize = 15;
 h1=legend('Relaxation','Saddle','Stable','location','best');
@@ -88,11 +55,4 @@ hold off
 title('Proxy Heteroclinic Network','Interpreter','Latex','FontSize',20)
 %saveas(gcf,'Plots/'+model_name+'_hcnet.png')
 
-
-
-
 hc_net
-pos_root_arr
-
-%Also get time arrays and save
-%save('..\Data\' + model_nam + '_hcnet.mat', 'pos_root_arr', 'hc_net', 'hc_traj_arr', 'stab_idx', 'sad_idx','hc_net_time')

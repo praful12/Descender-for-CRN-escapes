@@ -61,7 +61,7 @@ hold on;
 % Loop through each set of initial conditions and their solutions
 for i = 1:num_sad
     for j=1:2
-        sol = interpolated_solutions{i,j}(:, 2:end); % Extract the solution, excluding the time variable
+        sol = hc_traj_arr{i,j}(:, 2:end); % Extract the solution, excluding the time variable
     
         % Plot the trajectory of the solution
         plot(sol(:, 1), sol(:, 2), '-o', 'DisplayName', ['Initial Condition ' num2str(2*i+j-1)]);

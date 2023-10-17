@@ -50,13 +50,16 @@ for i = 1:num_pos_root
     elseif pos_eval_ct == 1 %saddle root
         sad_idx = [sad_idx ; i];
         sad_root = pos_root_arr(i,:);
-        x_ic_arr = [ x_ic_arr; sad_root + eps*V(:,j)'];
-        x_ic_arr = [ x_ic_arr; sad_root - eps*V(:,j)'];
+        x_ic_arr = [ x_ic_arr; sad_root + eps*unst_vec(end)];
+        x_ic_arr = [ x_ic_arr; sad_root - eps*unst_vec(end)];
     end
 end
 
 
 eig_val_lst;
+new_x_ic_arr = zeros(size(x_ic_arr));
+new_x_ic_arr(:,:)=x_ic_arr;
+x_ic_arr = new_x_ic_arr;
 pos_root_arr
 x_ic_arr
 
