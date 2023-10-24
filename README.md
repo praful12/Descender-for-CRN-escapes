@@ -29,3 +29,4 @@ MATLAB R2020a
 
 ## Toolboxes needed
 1. Curve fitting toolbox
+2. Signal processing toolbox
