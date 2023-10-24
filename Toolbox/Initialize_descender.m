@@ -22,4 +22,4 @@ f0_arr = [f0];
 eps_arr = [];
 a_arr = [];
 
-s_resamp_arr = [len_curve_prime];
+%s_resamp_arr = [len_curve_prime];

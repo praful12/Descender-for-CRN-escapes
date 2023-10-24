@@ -5,6 +5,7 @@
 
 hc_traj_arr = odeintegrator(@(t,q)MAK_fun(t,q), x_ic_arr, t_max);
 
+num_sad = size(sad_idx,1);
 hc_net = zeros(num_sad,3);
 
 % Initialize a figure for the plot
