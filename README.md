@@ -27,3 +27,5 @@ The MATLAB live scripts are labelled in the order of the workflow, and have comm
 ## MATLAB version
 MATLAB R2020a
 
+## Toolboxes needed
+1. Curve fitting toolbox
