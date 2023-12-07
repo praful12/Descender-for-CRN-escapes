@@ -9,5 +9,6 @@ MAK = subs(dHamdp,p,zeros(1,num_spec))
 jac = subs(Ham_qp_mix,p,zeros(1,num_spec));
 
 %---------Extract MATLAB function handles-------
-MAK_fun = matlabFunction(MAK,'Vars',{t, q.'})
+%MAK_fun = matlabFunction(MAK,'Vars',{t, q.'})
+MAK_fun = matlabFunction(MAK,'Vars',{q});
 jac_fun = matlabFunction(jac,'Vars',{q});
