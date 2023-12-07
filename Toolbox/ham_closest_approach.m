@@ -71,7 +71,7 @@ h1.FontSize = 15;
 %legend('Descender','Fwd HamEoM','Bwd HamEoM','location','best')
 xlabel('$q_1$','Interpreter','Latex','Fontsize',20)
 ylabel('$q_2$','Interpreter','Latex','Fontsize',20)
-title('Iteration '+plotnam+', $\Delta=$ '+string(round(dist_curr_for+dist_curr_back,3)),'Interpreter','Latex','Fontsize',20)
+%title('Iteration '+plotnam+', $\Delta=$ '+string(round(dist_curr_for+dist_curr_back,3)),'Interpreter','Latex','Fontsize',20)
 
 subplot(1,2,2)
 plot(PS_traj(:,num_spec + 1),PS_traj(:,num_spec + 2:end),'c-.','LineWidth',2)
