@@ -7,7 +7,7 @@ num_sad = size(sad_idx,1);
 resamp_pt = 4000;
 hc_net = zeros(num_sad,3);
 hc_net_time = zeros(num_sad,2);
-x_ic_arr = zeros(num_sad,2,num_spec)
+x_ic_arr = zeros(num_sad,2,num_spec);
 hc_traj_arr = cell(num_sad,2);
 %t_arr = zeros(num_sad,2);
 %get initial conditions by slightly displacing along the unstable
@@ -24,8 +24,8 @@ for i = 1:num_sad
     end
     
     eps = 10^(-3);
-    x_ic_arr(i,1,:) = x_ic + eps*unst_vec
-    x_ic_arr(i,2,:) = x_ic - eps*unst_vec  
+    x_ic_arr(i,1,:) = x_ic + eps*unst_vec;
+    x_ic_arr(i,2,:) = x_ic - eps*unst_vec ; 
 end
 
 %Integrate MAK from each initial condition using ode45
@@ -33,7 +33,7 @@ options = odeset('AbsTol',1e-10, 'RelTol', 1e-8);
 dt = 0.5*10^(-2);
 t_max = 5*10^5;
 init_cond = zeros(1,num_spec);
-t_desired = linspace(0,t_max,resamp_pt);
+%t_desired = linspace(0,t_max,resamp_pt);
 
 "Computing time"
 tic
@@ -42,11 +42,11 @@ for i=1:num_sad
     for j=1:2
 
         init_cond = reshape(x_ic_arr(i,j,:),[],1);
-        [t,sol] = ode23s(@(t,q)MAK_fun(t,q),[0 t_max], init_cond,options);
+        [t,sol] = ode23s(@(t,q)MAK_fun_t(t,q),[0 t_max], init_cond,options);
 
-        sol_desired=interp1(t,sol,t_desired,'linear');
+        %sol_desired=interp1(t,sol,t_desired,'linear');
 
-        hc_traj_arr{i,j} = [t_desired', sol_desired];
+        hc_traj_arr{i,j} = [t, sol];
         
     end
 end
@@ -64,7 +64,7 @@ for i = 1:num_sad
         sol = hc_traj_arr{i,j}(:, 2:end); % Extract the solution, excluding the time variable
     
         % Plot the trajectory of the solution
-        plot(sol(:, 1), sol(:, 2), '-o', 'DisplayName', ['Initial Condition ' num2str(2*i+j-1)]);
+        plot(sol(:, 1), sol(:, 2), '-', 'DisplayName', ['Initial Condition ' num2str(2*i+j-1)]);
     end
 end
 

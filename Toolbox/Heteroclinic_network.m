@@ -1,17 +1,17 @@
 %Get the heteroclinic network and all connecting relaxation trajectories
 %resampled at resamp_pt points along the relaxation trajectory.
-<<<<<<< Updated upstream
+
 %Input: stab_idx, sad_idx, unst_vec
 
 num_sad = size(sad_idx,1);
 resamp_pt = 4000;
-=======
+
 %Input: pos_root_arr, stab_idx, sad_idx, unst_vec, MAK_fun, jjac_fun
 %Output: hc_net, hc_traj_arr, hc_net_time, t_arr, 
 
-hc_traj_arr = odeintegrator(@(t,q)MAK_fun(t,q), x_ic_arr, t_max);
-num_sad = length(sad_idx);
->>>>>>> Stashed changes
+hc_traj_arr = odeintegrator(@(t,q)MAK_fun_t(t,q), x_ic_arr, t_max);
+
+
 hc_net = zeros(num_sad,3);
 hc_net_time = zeros(num_sad,2);
 x_ic_arr = zeros(num_sad,2,num_spec);
