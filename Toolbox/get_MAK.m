@@ -1,4 +1,4 @@
-function [MAK, jac, MAK_fun, jac_fun] = get_MAK(dHamdp,Ham_qp_mix,num_spec)
+function [MAK, jac, MAK_fun, MAK_fun_t, jac_fun] = get_MAK(dHamdp,Ham_qp_mix,num_spec)
 
 p = sym('p', [1 num_spec]);
 q = sym('q' ,[1 num_spec]);
@@ -9,6 +9,6 @@ MAK = subs(dHamdp,p,zeros(1,num_spec))
 jac = subs(Ham_qp_mix,p,zeros(1,num_spec));
 
 %---------Extract MATLAB function handles-------
-%MAK_fun = matlabFunction(MAK,'Vars',{t, q.'})
+MAK_fun_t = matlabFunction(MAK,'Vars',{t, q.'})
 MAK_fun = matlabFunction(MAK,'Vars',{q});
 jac_fun = matlabFunction(jac,'Vars',{q});
