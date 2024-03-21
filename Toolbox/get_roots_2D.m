@@ -63,6 +63,7 @@ x_ic_arr = new_x_ic_arr;
 pos_root_arr
 x_ic_arr
 
+%{
 figure()
 %lb = ; ub = 4;
 hold on
