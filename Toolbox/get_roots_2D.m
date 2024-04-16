@@ -23,7 +23,7 @@ for i = 1:num_root
     ct = 0;
 end
 num_pos_root = size(pos_root_arr,1);
-%pos_root_arr
+pos_root_arr
 
 %Get eigenvalues of jacobian and assign stability
 eig_val_lst = [];
@@ -36,7 +36,7 @@ eps = 10^(-3);
 
 for i = 1:num_pos_root
     pos_eval_ct = 0;
-    [V,D] = eig(jac_fun(pos_root_arr(i,:)));
+    [V,D] = eig(double(subs(jac,q,pos_root_arr(i,:))));
     eig_val_lst = [eig_val_lst; double(diag(D)')];
     for j = 1:num_spec
         if real(D(j,j))>0
